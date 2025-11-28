@@ -26,47 +26,46 @@ class LCW:
 
     def test_navigate(self):
 
-        # Cookies kapat
+
         self.wait.until(EC.presence_of_all_elements_located(self.ACCEPT_COOKIES))[2].click()
 
-        # Web push kapat
+
         self.wait.until(EC.presence_of_all_elements_located(self.WEB_PUSH))[0].click()
 
-        # Ana kategori hover
+        # hover
         categories = self.wait.until(EC.presence_of_all_elements_located(self.CATEGORY_PAGE))
         kadin = categories[1]
         self.actions.move_to_element(kadin).perform()
 
-        # Alt kategori tıklama
+
         self.wait.until(EC.element_to_be_clickable(self.SUBCATEGORY_PAGE)).click()
 
-        # ✅ assertIn: URL 'kadin' içeriyor mu?
+
         assert "kadin" in self.driver.current_url, "Alt kategori sayfası açılmadı!"
 
-        # Ürün seç
         self.wait.until(EC.presence_of_all_elements_located(self.PRODUCT_PAGE))[2].click()
 
-        # ✅ assertTrue: sayfa başlığı belirli kelimeyi içeriyor mu?
+
         assert "kadin" in self.driver.current_url, "Ürün sayfası açılmadı!"
 
-        # Beden seç
+
         self.wait.until(EC.presence_of_all_elements_located(self.SELECT_SIZE))[1].click()
 
-        # Sepete ekle
+
         self.wait.until(EC.presence_of_all_elements_located(self.ADD_TO_CART))[0].click()
         time.sleep(10)
 
-        # Sepete git
+
         self.wait.until(EC.presence_of_all_elements_located(self.CART_PAGE))[1].click()
 
-        # ✅ assertEqual: sepete yönlendirme doğru URL mi?
+
         expected_cart_url = "https://www.lcw.com/sepetim"
         assert self.driver.current_url == expected_cart_url, "Sepet sayfası açılmadı!"
 
-        # Anasayfaya dön
+
         self.wait.until(EC.element_to_be_clickable(self.HOME_PAGE)).click()
 
-        # ✅ assertIn: home sayfasında 'lcw' var mı?
+
         assert "lcw" in self.driver.current_url, "Anasayfa açılmadı!"
 
 LCW().test_navigate()
